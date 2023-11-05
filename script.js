@@ -38,3 +38,14 @@ const addTask = () => {
 };
 
 addBtn.addEventListener("click", addTask); 
+
+const deleteButtons = document.querySelectorAll(".delete");
+
+deleteButtons.forEach((button) => {
+    button.onclick = () => {
+        button.parentNode.removeChild();
+        taskCount = -1;
+        displayCount(taskCount);
+    };
+});
+
