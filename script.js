@@ -35,17 +35,57 @@ const addTask = () => {
 
     tasksContainer.insertAdjacentHTML
     ("beforeend", task);
+
+    const deleteButtons = document.querySelectorAll(".delete");
+
+    deleteButtons.forEach((button) => {
+        button.onclick = () => {
+            button.parentNode.remove();
+            taskCount -= 1;
+            displayCount(taskCount);
+        };
+    });
+
+    const editButton = document.querySelectorAll(".edit");
+
+    editButton.forEach((editButton) => {
+        editButton.onclick = (e) => {
+            let targetElement = e.target.parentElement;
+
+            if(!(e.target.className == "edit")){
+                targetElement = e.target.parentElement;
+            }
+
+            newTaskInput.value = targetElement.previousElementSibling?.innerText;
+            targetElement.parentNode.remove();
+            taskCount -= 1;
+            displayCount(taskCount);
+        }
+    });
+
+    const taskCheck = document.querySelectorAll(".task-check");
+    taskCheck.forEach((checkBox) => {
+        checkBox.onchange = () => {
+            checkBox.nextElementSibling.classList.toggle("completed");
+            if(checkBox.checked) {
+                taskCount -= 1;
+            }
+            else {
+                taskCount += 1;
+            }
+            taskCount += 1;
+            displayCount(taskCount);
+        };
+    });
+    taskCount += 1;
+    displayCount(taskCount);
+    newTaskInput.value = "";
 };
 
-addBtn.addEventListener("click", addTask); 
+addBtn.addEventListener("click", addTask);
 
-const deleteButtons = document.querySelectorAll(".delete");
-
-deleteButtons.forEach((button) => {
-    button.onclick = () => {
-        button.parentNode.removeChild();
-        taskCount = -1;
-        displayCount(taskCount);
-    };
-});
-
+window.onload = () => {
+    taskCount = 0;
+    displayCount(taskCount);
+    newTaskInput.value = "";
+}
